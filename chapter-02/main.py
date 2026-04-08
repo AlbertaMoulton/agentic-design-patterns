@@ -14,16 +14,20 @@ from langchain_core.runnables import RunnablePassthrough, RunnableBranch
 # --- 配置 ---
 # 从项目目录的 .env 加载环境变量
 load_dotenv()
-google_api_key = os.getenv("GOOGLE_API_KEY")
+
+api_key = os.getenv("OPENAI_API_KEY")
+base_url = os.getenv("OPENAI_BASE_URL")
+model = os.getenv("OPENAI_MODEL")
 
 # 确保环境变量已设置 API 密钥（如 GOOGLE_API_KEY）
 try:
-   if not google_api_key or google_api_key == "your_google_api_key_here":
+   if not api_key or api_key == "your_google_api_key_here":
        raise ValueError("未检测到 GOOGLE_API_KEY，请在 .env 文件中配置后重试。")
    llm = ChatGoogleGenerativeAI(
-       model="gemini-2.5-flash",
+       model=model,
        temperature=0,
-       google_api_key=google_api_key,
+       google_api_key=api_key,
+       base_url=base_url
    )
    print(f"语言模型初始化成功：{llm.model}")
 except Exception as e:
